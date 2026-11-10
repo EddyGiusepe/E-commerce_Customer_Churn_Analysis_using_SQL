@@ -1,0 +1,15 @@
+[project]
+name = "project-sql"
+version = "0.1.0"
+description = "Using SQL for data analysis"
+readme = "README.md"
+authors = [
+    { name = "EddyGiusepe", email = "eddychirinos.unac@gmail.com" }
+]
+requires-python = ">=3.14.5"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "ruff==0.17.4",
+]
