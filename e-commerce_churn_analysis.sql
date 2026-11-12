@@ -4,10 +4,8 @@ Senior Data Scientist/AI Engineering.: Dr. Eddy Giusepe Chirinos Isidro
 Data Analysis Project
 =====================
 */
-SELECT * FROM ecommerce_churn LIMIT 10;
 
-SELECT COUNT(*) AS quantidade_colunas
-FROM pragma_table_info('ecommerce_churn');
+SELECT * FROM ecommerce_churn LIMIT 10;
 
 /*
 Step 1: Data Cleaning
@@ -141,3 +139,8 @@ UNION
 SELECT 'CashbackAmount' AS ColumnName, count(*) AS CountOfNulls
 FROM ecommerce_churn
 WHERE CashbackAmount IS NULL;
+
+-- 3.1 Handling null values
+UPDATE ecommerce_churn
+SET Tenure = (SELECT AVG(tenure) FROM ecommerce_churn)
+WHERE Tenure IS NULL;
