@@ -142,5 +142,29 @@ WHERE CashbackAmount IS NULL;
 
 -- 3.1 Handling null values
 UPDATE ecommerce_churn
-SET Tenure = (SELECT AVG(tenure) FROM ecommerce_churn)
+SET Tenure = (SELECT AVG(Tenure) FROM ecommerce_churn)
 WHERE Tenure IS NULL;
+
+UPDATE ecommerce_churn
+SET OrderCount = (SELECT AVG(OrderCount) FROM ecommerce_churn)
+WHERE OrderCount IS NULL;
+
+UPDATE ecommerce_churn
+SET CouponUsed = (SELECT AVG(CouponUsed) FROM ecommerce_churn)
+WHERE CouponUsed IS NULL;
+
+UPDATE ecommerce_churn
+SET OrderAmountHikeFromlastYear = (SELECT AVG(OrderAmountHikeFromlastYear) FROM ecommerce_churn)
+WHERE OrderAmountHikeFromlastYear IS NULL;
+
+UPDATE ecommerce_churn
+SET HourSpendOnApp = (SELECT AVG(HourSpendOnApp) FROM ecommerce_churn)
+WHERE HourSpendOnApp IS NULL;
+
+UPDATE ecommerce_churn
+SET WarehouseToHome = (SELECT  AVG(WarehouseToHome) FROM ecommerce_churn)
+WHERE WarehouseToHome IS NULL;
+
+UPDATE ecommerce_churn
+SET DaySinceLastOrder = (SELECT AVG(DaySinceLastOrder) FROM ecommerce_churn)
+WHERE DaySinceLastOrder IS NULL; 
