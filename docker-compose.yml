@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: churn-postgres
+    restart: unless-stopped
+    environment:
+      # banco: db_ecommerce | tabela analisada: ecommerce_churn (criada via SQL, nao pelo compose)
+      POSTGRES_DB: ${POSTGRES_DB:-db_ecommerce}
+      POSTGRES_USER: ${POSTGRES_USER:-churn}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-churn}
+      # deixa a ordenação/datas previsíveis em qualquer host
+      TZ: ${TZ:-UTC}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-churn} -d ${POSTGRES_DB:-db_ecommerce}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  pgdata:
