@@ -170,7 +170,7 @@ UPDATE ecommerce_churn
 SET "DaySinceLastOrder" = (SELECT AVG("DaySinceLastOrder") FROM ecommerce_churn)
 WHERE "DaySinceLastOrder" IS NULL; 
 
--- 4.Creating a new column from an already existing "churn" column
+-- 4. Creating a new column from an already existing "churn" column
 ALTER TABLE ecommerce_churn 
 ADD COLUMN "CustomerStatus" VARCHAR(50);
 
@@ -180,14 +180,54 @@ SET "CustomerStatus" = (CASE
 	WHEN "Churn" = 0 THEN 'Stayed'
 END);
 
+-- 5. Creating a new column from an already existing "complain" column
+ALTER TABLE ecommerce_churn
+ADD COLUMN "ComplainRecieved" VARCHAR(10)
+	
+UPDATE ecommerce_churn
+SET "ComplainRecieved" = (CASE 
+    WHEN "Complain" = 1 THEN 'Yes'
+    WHEN "Complain" = 0 THEN 'No'
+END);
+
+-- 6. Checking values in each column for correctness and accuracy
+-- 6.1 Fixing redundancy in “PreferedLoginDevice” Column
+SELECT DISTINCT "PreferredLoginDevice" FROM ecommerce_churn; -- Phone and Mobile Phone are the same thing.
+
+UPDATE ecommerce_churn
+SET "PreferredLoginDevice" = 'Phone' WHERE "PreferredLoginDevice" = 'Mobile Phone';
+
+-- 6.2 Fixing redundancy in "PreferedOrderCat" Column
+SELECT DISTINCT "PreferedOrderCat" FROM ecommerce_churn;
 
 
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
