@@ -14,7 +14,7 @@ Step 1: Data Cleaning
 */
 
 -- 1. Finding the total number of customers
-SELECT DISTINCT count("CustomerID") AS TotalNumberOfCustomers
+SELECT DISTINCT count("CustomerID") AS "TotalNumberOfCustomers"
 FROM ecommerce_churn;
 
 -- 2. Checking for duplicate rows
@@ -227,18 +227,30 @@ Step 2: Data Exploration
 */
 
 -- 1. What is the overall customer churn rate?
+SELECT
+    "TotalNumberOfCustomers",
+    "TotalNumberOfChurnedCustomers",
+    CAST(
+        ("TotalNumberOfChurnedCustomers" * 1.0 / "TotalNumberOfCustomers") * 100
+        AS DECIMAL(10, 2)
+    ) AS "ChurnRate"
+FROM
+    (SELECT COUNT(*) AS "TotalNumberOfCustomers"
+     FROM ecommerce_churn
+    ) AS "Total",
+    
+    (SELECT COUNT(*) AS "TotalNumberOfChurnedCustomers"
+     FROM ecommerce_churn
+     WHERE "CustomerStatus" = 'Churned'
+    ) AS "Churned";
 
-
-
-
-
-
-
-
-
-
-
-
+--2. How does the churn rate vary based on the preferred login device?
+SELECT "PreferredLoginDevice", 
+        COUNT(*) AS "TotalCustomers",
+        SUM("Churn") AS "ChurnedCustomers",
+        CAST((SUM("Churn") * 1.0 / COUNT(*)) * 100 AS DECIMAL(10,2)) AS "ChurnRate"
+FROM ecommerce_churn
+GROUP BY "PreferredLoginDevice"
 
 
 
