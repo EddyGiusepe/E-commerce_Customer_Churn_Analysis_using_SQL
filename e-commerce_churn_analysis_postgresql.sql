@@ -8,8 +8,9 @@ Data Analysis Project
 SELECT * FROM ecommerce_churn LIMIT 10;
 
 /*
+---------------------
 Step 1: Data Cleaning
-        -------------
+---------------------
 */
 
 -- 1. Finding the total number of customers
@@ -200,14 +201,14 @@ SET "PreferredLoginDevice" = 'Phone' WHERE "PreferredLoginDevice" = 'Mobile Phon
 -- 6.2 Fixing redundancy in "PreferedOrderCat" Column
 SELECT DISTINCT "PreferedOrderCat" FROM ecommerce_churn;
 
+UPDATE ecommerce_churn
+SET "PreferedOrderCat" = 'Mobile Phone' WHERE "PreferedOrderCat" = 'Mobile'
 
+-- 6.3 Fixing redundancy in "PreferredPaymentMode" Column
+SELECT DISTINCT "PreferredPaymentMode" FROM ecommerce_churn;
 
-
-
-
-
-
-
+UPDATE ecommerce_churn
+SET "PreferredPaymentMode"  = 'Cash on Delivery' WHERE "PreferredPaymentMode"  = 'COD'
 
 
 
