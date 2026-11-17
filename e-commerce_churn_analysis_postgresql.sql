@@ -202,13 +202,42 @@ SET "PreferredLoginDevice" = 'Phone' WHERE "PreferredLoginDevice" = 'Mobile Phon
 SELECT DISTINCT "PreferedOrderCat" FROM ecommerce_churn;
 
 UPDATE ecommerce_churn
-SET "PreferedOrderCat" = 'Mobile Phone' WHERE "PreferedOrderCat" = 'Mobile'
+SET "PreferedOrderCat" = 'Mobile Phone' WHERE "PreferedOrderCat" = 'Mobile';
 
 -- 6.3 Fixing redundancy in "PreferredPaymentMode" Column
 SELECT DISTINCT "PreferredPaymentMode" FROM ecommerce_churn;
 
 UPDATE ecommerce_churn
-SET "PreferredPaymentMode"  = 'Cash on Delivery' WHERE "PreferredPaymentMode"  = 'COD'
+SET "PreferredPaymentMode"  = 'Cash on Delivery' WHERE "PreferredPaymentMode"  = 'COD';
+
+-- 6.4 Fixing wrongly entered values in "WarehouseToHome" column
+SELECT DISTINCT "WarehouseToHome" FROM ecommerce_churn; -- Changes 126 and 127, are incorrect
+
+UPDATE ecommerce_churn
+SET "WarehouseToHome" = '27' WHERE "WarehouseToHome" = '127';
+
+UPDATE ecommerce_churn
+SET "WarehouseToHome" = '26' WHERE "WarehouseToHome" = '126';
+
+
+/*
+---------------------
+Step 2: Data Exploration
+---------------------
+*/
+
+-- 1. What is the overall customer churn rate?
+
+
+
+
+
+
+
+
+
+
+
 
 
 
