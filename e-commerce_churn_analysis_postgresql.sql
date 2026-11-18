@@ -250,14 +250,32 @@ SELECT "PreferredLoginDevice",
         SUM("Churn") AS "ChurnedCustomers",
         CAST((SUM("Churn") * 1.0 / COUNT(*)) * 100 AS DECIMAL(10,2)) AS "ChurnRate"
 FROM ecommerce_churn
-GROUP BY "PreferredLoginDevice"
+GROUP BY "PreferredLoginDevice";
+
+--3. What is the distribution of customers across different city tiers?
+SELECT "CityTier", 
+       COUNT(*) AS "TotalCustomer", 
+       SUM("Churn") AS "ChurnedCustomers", 
+       CAST(SUM("Churn") * 1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "ChurnRate"
+FROM ecommerce_churn
+GROUP BY "CityTier"
+ORDER BY "ChurnRate" DESC;
+
+--4. Is there any correlation between the warehouse-to-home distance and customer churn?
+ALTER TABLE ecommerce_churn
+ADD "WarehouseToHomeRange" VARCHAR(50)
+
+UPDATE ecommerce_churn
+SET "WarehouseToHomeRange" = CASE 
+    WHEN "WarehouseToHome" <= 10 THEN 'Very close distance'
+    WHEN "WarehouseToHome" > 10 AND "WarehouseToHome" <= 20 THEN 'Close distance'
+    WHEN "WarehouseToHome" > 20 AND "WarehouseToHome" <= 30 THEN 'Moderate distance'
+    WHEN "WarehouseToHome" > 30 THEN 'Far distance'
+END;
 
 
 
-
-
-
-
+SELECT * FROM ecommerce_churn;
 
 
 
