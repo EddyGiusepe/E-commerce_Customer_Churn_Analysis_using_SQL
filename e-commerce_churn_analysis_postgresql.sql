@@ -291,13 +291,26 @@ FROM ecommerce_churn
 GROUP BY "PreferredPaymentMode"
 ORDER BY "Churnrate" DESC;
 
+--6. What is the typical Tenure for churned customers?
+ALTER TABLE ecommerce_churn
+ADD "TenureRange" VARCHAR(50);
 
+UPDATE ecommerce_churn
+SET "TenureRange" = CASE
+	WHEN "Tenure" <= 6 THEN '6 Months'
+    WHEN "Tenure" > 6 AND "Tenure" <= 12 THEN '1 Year'
+    WHEN "Tenure" > 12 AND "Tenure" <= 24 THEN '2 Years'
+    WHEN "Tenure" > 24 THEN 'more than 2 years'
+END;
 
-
-
-SELECT * FROM ecommerce_churn;
-
-
+--Finding typical tenure for churned customers
+SELECT "TenureRange",
+		COUNT(*) AS "TotalCustomer",
+		SUM("Churn") AS "CustomerChurn",
+		CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "TenureRange" 
+ORDER BY "Churnrate" DESC;
 
 
 
