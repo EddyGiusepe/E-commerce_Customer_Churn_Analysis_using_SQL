@@ -273,6 +273,26 @@ SET "WarehouseToHomeRange" = CASE
     WHEN "WarehouseToHome" > 30 THEN 'Far distance'
 END;
 
+--Finding a correlation between warehouse to home and churn rate:
+SELECT "WarehouseToHomeRange",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "WarehouseToHomeRange"
+ORDER BY "Churnrate" DESC;
+
+--5. Which is the most preferred payment mode among churned customers?
+SELECT "PreferredPaymentMode",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "PreferredPaymentMode"
+ORDER BY "Churnrate" DESC;
+
+
+
 
 
 SELECT * FROM ecommerce_churn;
