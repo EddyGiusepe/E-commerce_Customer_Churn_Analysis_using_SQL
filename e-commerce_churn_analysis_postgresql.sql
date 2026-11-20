@@ -312,6 +312,57 @@ FROM ecommerce_churn
 GROUP BY "TenureRange" 
 ORDER BY "Churnrate" DESC;
 
+--7. Is there any difference in churn rate between male and female customers?
+SELECT "Gender",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "Gender"
+ORDER BY "Churnrate" DESC;
+
+--8. How does the average time spent on the app differ for churned and non-churned customers?
+SELECT "CustomerStatus",
+       ROUND(AVG("HourSpendOnApp")::NUMERIC, 2) AS "AverageHourSpentOnApp" -- Here, you can also use CAST
+FROM ecommerce_churn
+GROUP BY "CustomerStatus";
+
+--9. Does the number of registered devices impact the likelihood of churn?
+SELECT "NumberOfDeviceRegistered",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "NumberOfDeviceRegistered"
+ORDER BY "Churnrate" DESC;
+
+
+
+
+
+SELECT * FROM ecommerce_churn;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
