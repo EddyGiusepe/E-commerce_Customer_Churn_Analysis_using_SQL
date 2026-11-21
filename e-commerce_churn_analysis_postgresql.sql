@@ -336,7 +336,32 @@ FROM ecommerce_churn
 GROUP BY "NumberOfDeviceRegistered"
 ORDER BY "Churnrate" DESC;
 
+--10. Which order category is most preferred among churned customers?
+SELECT "PreferedOrderCat",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "PreferedOrderCat"
+ORDER BY "Churnrate" DESC;
 
+--11. Is there any relationship between customer satisfaction scores and churn?
+SELECT "SatisfactionScore",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "SatisfactionScore"
+ORDER BY "Churnrate" DESC;
+
+--12. Does the marital status of customers influence churn behavior?
+SELECT "MaritalStatus",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "MaritalStatus"
+ORDER BY "Churnrate" DESC;
 
 
 
