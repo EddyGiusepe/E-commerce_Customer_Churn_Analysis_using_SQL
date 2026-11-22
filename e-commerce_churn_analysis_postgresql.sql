@@ -363,9 +363,15 @@ FROM ecommerce_churn
 GROUP BY "MaritalStatus"
 ORDER BY "Churnrate" DESC;
 
+--13. How many addresses do churned customers have on average?
+SELECT ROUND(AVG("NumberOfAddress")::NUMERIC, 2) AS "AverageNumOfChurnedCustomerAddress"
+FROM ecommerce_churn
+WHERE "CustomerStatus" = 'Stayed'
 
 
-SELECT * FROM ecommerce_churn;
+
+
+
 
 
 
