@@ -377,6 +377,30 @@ FROM ecommerce_churn
 GROUP BY "ComplainRecieved"
 ORDER BY "Churnrate" DESC;
 
+--15. How does the use of coupons differ between churned and non-churned customers?
+SELECT "CustomerStatus", SUM("CouponUsed") AS "SumOfCouponUsed"
+FROM ecommerce_churn
+GROUP BY "CustomerStatus";
+
+--16. What is the average number of days since the last order for churned customers?
+SELECT AVG("DaySinceLastOrder") AS "AverageNumOfDaysSinceLastOrder"
+FROM ecommerce_churn
+WHERE "CustomerStatus" = 'Churned'
+
+
+
+
+
+
+SELECT  * FROM ecommerce_churn;
+
+
+
+
+
+
+
+
 
 
 
