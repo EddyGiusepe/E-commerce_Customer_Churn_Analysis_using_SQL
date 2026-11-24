@@ -368,14 +368,14 @@ SELECT ROUND(AVG("NumberOfAddress")::NUMERIC, 2) AS "AverageNumOfChurnedCustomer
 FROM ecommerce_churn
 WHERE "CustomerStatus" = 'Stayed'
 
-
-
-
-
-
-
-
-
+--14. Do customer complaints influence churned behavior?
+SELECT "ComplainRecieved",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "ComplainRecieved"
+ORDER BY "Churnrate" DESC;
 
 
 
