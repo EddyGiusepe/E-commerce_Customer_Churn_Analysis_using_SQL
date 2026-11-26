@@ -221,9 +221,9 @@ SET "WarehouseToHome" = '26' WHERE "WarehouseToHome" = '126';
 
 
 /*
----------------------
+------------------------
 Step 2: Data Exploration
----------------------
+------------------------
 */
 
 -- 1. What is the overall customer churn rate?
@@ -387,12 +387,44 @@ SELECT AVG("DaySinceLastOrder") AS "AverageNumOfDaysSinceLastOrder"
 FROM ecommerce_churn
 WHERE "CustomerStatus" = 'Churned'
 
+--17. Is there any correlation between cashback amount and churn rate?
+ALTER TABLE ecommerce_churn
+ADD "CashBackAmountRange" VARCHAR(50);
+
+UPDATE ecommerce_churn
+SET "CashBackAmountRange" =
+CASE 
+    WHEN "CashbackAmount" <= 100 THEN 'Low Cashback Amount'
+    WHEN "CashbackAmount" > 100 AND "CashbackAmount" <= 200 THEN 'Moderate Cashback Amount'
+    WHEN "CashbackAmount" > 200 AND "CashbackAmount" <= 300 THEN 'High Cashback Amount'
+    WHEN "CashbackAmount" > 300 THEN 'Very High Cashback Amount'
+END;
+
+--Therefore, Finding the correlation between cashback amount range and churned rate:
+SELECT "CashBackAmountRange",
+       COUNT(*) AS "TotalCustomer",
+       SUM("Churn") AS "CustomerChurn",
+       CAST(SUM("Churn")*1.0 / COUNT(*) * 100 AS DECIMAL(10,2)) AS "Churnrate"
+FROM ecommerce_churn
+GROUP BY "CashBackAmountRange"
+ORDER BY "Churnrate" DESC;
 
 
+/*
+-----------------------
+Step 3: Insight Section
+-----------------------
 
+* The dataset includes 5,630 customers, providing a substantial sample size for analysis.
 
+* The overall churn rate is 16.84%, indicating significant customer attrition.
 
-SELECT  * FROM ecommerce_churn;
+* Customers who prefer logging in with a computer have slightly higher churn rates compared to phone users, suggesting different usage patterns and preferences.
+
+* Tier 1 cities have lower churn rates than Tier 2 and Tier 3 cities, possibly due to competition and customer preferences.
+
+* Proximity to the warehouse affects churn rates, with closer customers showing lower churn, highlighting the importance of optimizing logistics and delivery strategies.
+ */
 
 
 
